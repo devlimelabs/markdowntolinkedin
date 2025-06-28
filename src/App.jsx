@@ -4,8 +4,10 @@ import { Textarea } from '@/components/ui/textarea.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
-import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCircle, AlertCircle } from 'lucide-react'
+import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCircle, AlertCircle, HelpCircle, Share2 } from 'lucide-react'
 import { toast, Toaster } from 'sonner'
+import SideGuide from '@/components/SideGuide.jsx'
+import { logCopyToClipboard, logDownloadText, logEmailToSelf, logFileDropped, logShareClicked, logPageView } from '@/lib/firebase.js'
 import './App.css'
 
 // Unicode character mappings for LinkedIn formatting
@@ -91,6 +93,12 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const [linkedInText, setLinkedInText] = useState('')
   const [viewMode, setViewMode] = useState('desktop')
   const [copySuccess, setCopySuccess] = useState(false)
+  const [isGuideOpen, setIsGuideOpen] = useState(false)
+
+  // Log page view on mount
+  useEffect(() => {
+    logPageView()
+  }, [])
 
   // Convert markdown to LinkedIn format whenever input changes
   useEffect(() => {
@@ -98,14 +106,29 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
     setLinkedInText(converted)
   }, [markdown])
 
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Press ? or Ctrl+/ to open guide
+      if ((e.key === '?' && !e.ctrlKey && !e.metaKey) || (e.key === '/' && (e.ctrlKey || e.metaKey))) {
+        e.preventDefault()
+        setIsGuideOpen(true)
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   // Handle copy to clipboard
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(linkedInText)
       setCopySuccess(true)
+      logCopyToClipboard(true)
       toast.success('Copied to clipboard!')
       setTimeout(() => setCopySuccess(false), 2000)
     } catch (err) {
+      logCopyToClipboard(false)
       toast.error('Failed to copy text')
     }
   }
@@ -121,6 +144,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
+    logDownloadText()
     toast.success('File downloaded!')
   }
 
@@ -129,6 +153,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
     const subject = encodeURIComponent('LinkedIn Post Content')
     const body = encodeURIComponent(linkedInText)
     window.open(`mailto:?subject=${subject}&body=${body}`)
+    logEmailToSelf()
   }
 
   // Handle file drop
@@ -141,6 +166,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
       const reader = new FileReader()
       reader.onload = (e) => {
         setMarkdown(e.target.result)
+        logFileDropped()
         toast.success('Markdown file loaded!')
       }
       reader.readAsText(mdFile)
@@ -156,6 +182,40 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const characterCount = linkedInText.length
   const linkedInLimit = 3000
   const isOverLimit = characterCount > linkedInLimit
+
+  // Handle share
+  const handleShare = async (platform) => {
+    const shareUrl = 'https://markdowntolinkedin.web.app/'
+    const shareText = 'Check out this free LinkedIn Markdown Formatter - Convert your Markdown to beautifully formatted LinkedIn posts!'
+    
+    logShareClicked(platform)
+    
+    if (platform === 'linkedin') {
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank')
+    } else if (platform === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank')
+    } else if (platform === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank')
+    } else if (platform === 'copy') {
+      try {
+        await navigator.clipboard.writeText(shareUrl)
+        toast.success('Link copied to clipboard!')
+      } catch (err) {
+        toast.error('Failed to copy link')
+      }
+    } else if (navigator.share) {
+      // Use Web Share API if available
+      try {
+        await navigator.share({
+          title: 'LinkedIn Markdown Formatter',
+          text: shareText,
+          url: shareUrl
+        })
+      } catch (err) {
+        // User cancelled or error
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
@@ -176,14 +236,26 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         </div>
 
         {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-6">
+        <div className="grid lg:grid-cols-2 gap-6 mb-6" style={{ minHeight: '600px' }}>
           {/* Input Section */}
-          <Card className="h-fit">
+          <Card className="h-full">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Markdown Input
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Markdown Input
+                </CardTitle>
+                <Button
+                  onClick={() => setIsGuideOpen(true)}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <HelpCircle className="w-4 h-4" />
+                  Guide
+                  <kbd className="ml-1 px-1 py-0.5 text-xs bg-gray-100 border rounded">?</kbd>
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <div 
@@ -214,7 +286,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
           </Card>
 
           {/* Preview Section */}
-          <Card className="h-fit">
+          <Card className="h-full">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
@@ -304,6 +376,16 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                 <Mail className="w-4 h-4" />
                 Email to Self
               </Button>
+              
+              <Button 
+                onClick={() => navigator.share ? handleShare('native') : handleShare('linkedin')} 
+                variant="outline"
+                className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700"
+                size="lg"
+              >
+                <Share2 className="w-4 h-4" />
+                Share This Tool
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -312,13 +394,14 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         <div className="text-center mt-8 text-gray-600">
           <p className="text-sm">
             Made with ❤️ for LinkedIn content creators • 
-            <a href="#" className="text-blue-600 hover:underline ml-1">
+            <a href="https://www.linkedin.com/in/john-pribesh-61892027/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-1">
               Report Issues
             </a>
           </p>
         </div>
       </div>
       <Toaster />
+      <SideGuide isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
     </div>
   )
 }

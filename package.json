@@ -10,11 +10,12 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "clsx": "^2.1.0",
+    "firebase": "^11.9.1",
+    "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "lucide-react": "^0.344.0",
     "sonner": "^1.4.0",
-    "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {

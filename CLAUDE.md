@@ -8,19 +8,22 @@ LinkedIn Markdown Formatter - A React application that converts markdown text to
 
 ## Project Setup & Commands
 
-**Note**: This project is currently missing its build configuration. Before development:
+### Development Commands
+```bash
+npm install       # Install dependencies
+npm run dev       # Start development server (http://localhost:5173)
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run deploy    # Build and deploy to Firebase
+```
 
-1. Initialize the project with a package.json and install dependencies
-2. Set up a build tool (Vite recommended based on import patterns)
-3. Create the missing src directory structure
-
-### Expected Dependencies (based on imports)
-- react
-- react-dom
-- lucide-react
-- sonner
-- @shadcn/ui components (or similar component library)
+### Dependencies
+- react & react-dom
+- lucide-react (icons)
+- sonner (toast notifications)
+- clsx & tailwind-merge (utility functions)
 - Tailwind CSS
+- Vite (build tool)
 
 ## Architecture & Key Components
 
@@ -57,12 +60,17 @@ import { Textarea } from '@/components/ui/textarea.jsx'
 
 The project has comprehensive documentation in the `/docs` directory but is missing its actual implementation. The existing files (App.jsx, App.css, index.html) have been cleared and need to be rebuilt according to the specifications in the documentation.
 
-## Key Features to Implement
+## Key Features Implemented
 
-Based on project documentation:
 1. Real-time markdown to LinkedIn format conversion
 2. Support for bold, italic, headers, lists, and code blocks
 3. Copy to clipboard functionality
-4. Preview pane showing formatted output
+4. Preview pane showing formatted output (desktop/mobile views)
 5. Character count for LinkedIn's limits
-6. History/undo functionality
+6. File drag-and-drop support
+7. Email to self functionality
+8. Download as text file
+9. **Sliding side navigation guide** with:
+   - Markdown syntax reference
+   - Accessibility guidelines
+   - Keyboard shortcut support (press ? to open)

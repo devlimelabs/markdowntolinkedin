@@ -4,10 +4,11 @@ import { Textarea } from '@/components/ui/textarea.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
-import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCircle, AlertCircle, HelpCircle, Share2 } from 'lucide-react'
+import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCircle, AlertCircle, HelpCircle, Share2, Wand2 } from 'lucide-react'
 import { toast, Toaster } from 'sonner'
 import SideGuide from '@/components/SideGuide.jsx'
 import { logCopyToClipboard, logDownloadText, logEmailToSelf, logFileDropped, logShareClicked, logPageView } from '@/lib/firebase.js'
+import { htmlToMarkdown, isMarkdown } from '@/lib/htmlToMarkdown.js'
 import './App.css'
 
 // Unicode character mappings for LinkedIn formatting
@@ -94,6 +95,8 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const [viewMode, setViewMode] = useState('desktop')
   const [copySuccess, setCopySuccess] = useState(false)
   const [isGuideOpen, setIsGuideOpen] = useState(false)
+  const [autoConvert, setAutoConvert] = useState(true)
+  const [lastAutoConverted, setLastAutoConverted] = useState(false)
 
   // Log page view on mount
   useEffect(() => {
@@ -179,13 +182,40 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
     e.preventDefault()
   }
 
+  // Handle paste event for auto-conversion
+  const handlePaste = async (e) => {
+    if (!autoConvert) return
+    
+    // Prevent default paste
+    e.preventDefault()
+    
+    // Try to get HTML content first
+    const clipboardData = e.clipboardData || window.clipboardData
+    const htmlData = clipboardData.getData('text/html')
+    const textData = clipboardData.getData('text/plain')
+    
+    if (htmlData && !isMarkdown(textData)) {
+      // Convert HTML to Markdown
+      const convertedMarkdown = htmlToMarkdown(htmlData)
+      setMarkdown(convertedMarkdown)
+      setLastAutoConverted(true)
+      toast.success('Auto-converted from rich text to Markdown!', {
+        icon: <Wand2 className="w-4 h-4" />
+      })
+    } else {
+      // Just paste as plain text
+      setMarkdown(textData)
+      setLastAutoConverted(false)
+    }
+  }
+
   const characterCount = linkedInText.length
   const linkedInLimit = 3000
   const isOverLimit = characterCount > linkedInLimit
 
   // Handle share
   const handleShare = async (platform) => {
-    const shareUrl = 'https://markdowntolinkedin.web.app/'
+    const shareUrl = 'https://markdowntolinkedin.com/'
     const shareText = 'Check out this free LinkedIn Markdown Formatter - Convert your Markdown to beautifully formatted LinkedIn posts!'
     
     logShareClicked(platform)
@@ -244,17 +274,35 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="w-5 h-5" />
                   Markdown Input
+                  {lastAutoConverted && (
+                    <Badge variant="secondary" className="text-xs">
+                      <Wand2 className="w-3 h-3 mr-1" />
+                      Auto-converted
+                    </Badge>
+                  )}
                 </CardTitle>
-                <Button
-                  onClick={() => setIsGuideOpen(true)}
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
-                  <HelpCircle className="w-4 h-4" />
-                  Guide
-                  <kbd className="ml-1 px-1 py-0.5 text-xs bg-gray-100 border rounded">?</kbd>
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    onClick={() => setAutoConvert(!autoConvert)}
+                    variant={autoConvert ? "default" : "outline"}
+                    size="sm"
+                    className="flex items-center gap-2"
+                    title="Toggle auto-conversion of pasted rich text"
+                  >
+                    <Wand2 className="w-4 h-4" />
+                    {autoConvert ? 'Auto' : 'Manual'}
+                  </Button>
+                  <Button
+                    onClick={() => setIsGuideOpen(true)}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
+                    <HelpCircle className="w-4 h-4" />
+                    Guide
+                    <kbd className="ml-1 px-1 py-0.5 text-xs bg-gray-100 border rounded">?</kbd>
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
@@ -265,8 +313,12 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
               >
                 <Textarea
                   value={markdown}
-                  onChange={(e) => setMarkdown(e.target.value)}
-                  placeholder="Paste your Markdown content here or drag & drop a .md file..."
+                  onChange={(e) => {
+                    setMarkdown(e.target.value)
+                    setLastAutoConverted(false)
+                  }}
+                  onPaste={handlePaste}
+                  placeholder={autoConvert ? "Paste anything here - text, formatted content from Word/Google Docs, or Markdown..." : "Paste your Markdown content here or drag & drop a .md file..."}
                   className="min-h-[500px] font-mono text-sm resize-none"
                 />
                 <div className="absolute top-2 right-2 text-xs text-gray-500 bg-white px-2 py-1 rounded">
@@ -276,7 +328,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
               <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <h4 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h4>
                 <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• Use **bold** for emphasis and key points</li>
+                  <li>• {autoConvert ? 'Paste from Word, Google Docs, or any website - auto-converts to Markdown!' : 'Use **bold** for emphasis and key points'}</li>
                   <li>• Use *italics* for quotes and subtle emphasis</li>
                   <li>• Headers become bold formatted text</li>
                   <li>• Lists are converted to bullet points</li>

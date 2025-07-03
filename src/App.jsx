@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button.jsx'
 import { Textarea } from '@/components/ui/textarea.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
-import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCircle, AlertCircle, HelpCircle, Share2, Wand2 } from 'lucide-react'
+import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCircle, AlertCircle, HelpCircle, Share2, Wand2, Undo, Redo } from 'lucide-react'
 import { toast, Toaster } from 'sonner'
 import SideGuide from '@/components/SideGuide.jsx'
+import FormattingToolbar from '@/components/FormattingToolbar.jsx'
 import { logCopyToClipboard, logDownloadText, logEmailToSelf, logFileDropped, logShareClicked, logPageView } from '@/lib/firebase.js'
 import { htmlToMarkdown, isMarkdown } from '@/lib/htmlToMarkdown.js'
+import { UndoRedoManager } from '@/lib/undoRedoManager.js'
+import { formatBold, formatItalic, formatStrikethrough, formatLink, formatBulletList, formatNumberedList, formatCode, formatBlockquote } from '@/lib/textFormatting.js'
 import './App.css'
 
 // Unicode character mappings for LinkedIn formatting
@@ -97,27 +100,119 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const [isGuideOpen, setIsGuideOpen] = useState(false)
   const [autoConvert, setAutoConvert] = useState(true)
   const [lastAutoConverted, setLastAutoConverted] = useState(false)
+  const [, forceUpdate] = useState({})
+  
+  // Refs
+  const textareaRef = useRef(null)
+  const undoRedoManagerRef = useRef(new UndoRedoManager())
+  const lastValueRef = useRef(markdown)
 
   // Log page view on mount
   useEffect(() => {
     logPageView()
+    // Save initial state
+    undoRedoManagerRef.current.saveState(markdown, 0, 0)
   }, [])
 
   // Convert markdown to LinkedIn format whenever input changes
   useEffect(() => {
     const converted = convertMarkdownToLinkedIn(markdown)
     setLinkedInText(converted)
+    
+    // Save state for undo/redo
+    if (textareaRef.current && markdown !== lastValueRef.current) {
+      const { selectionStart, selectionEnd } = textareaRef.current
+      if (undoRedoManagerRef.current.shouldSaveState()) {
+        undoRedoManagerRef.current.saveState(markdown, selectionStart, selectionEnd)
+      }
+      lastValueRef.current = markdown
+      // Force update to refresh toolbar button states
+      forceUpdate({})
+    }
   }, [markdown])
 
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
+      const textarea = textareaRef.current
+      if (!textarea) return
+      
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+      const isCtrlCmd = isMac ? e.metaKey : e.ctrlKey
+      
       // Press ? or Ctrl+/ to open guide
       if ((e.key === '?' && !e.ctrlKey && !e.metaKey) || (e.key === '/' && (e.ctrlKey || e.metaKey))) {
         e.preventDefault()
         setIsGuideOpen(true)
+        return
+      }
+      
+      // Only handle shortcuts when textarea is focused
+      if (document.activeElement !== textarea) return
+      
+      // Undo/Redo
+      if (isCtrlCmd && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault()
+        const state = undoRedoManagerRef.current.undo()
+        if (state) {
+          setMarkdown(state.value)
+          setTimeout(() => {
+            textarea.setSelectionRange(state.selectionStart, state.selectionEnd)
+            textarea.focus()
+          }, 0)
+        }
+        return
+      }
+      
+      if ((isCtrlCmd && e.key === 'z' && e.shiftKey) || (isCtrlCmd && e.key === 'y')) {
+        e.preventDefault()
+        const state = undoRedoManagerRef.current.redo()
+        if (state) {
+          setMarkdown(state.value)
+          setTimeout(() => {
+            textarea.setSelectionRange(state.selectionStart, state.selectionEnd)
+            textarea.focus()
+          }, 0)
+        }
+        return
+      }
+      
+      // Formatting shortcuts
+      if (isCtrlCmd) {
+        const { selectionStart, selectionEnd, value } = textarea
+        let result = null
+        
+        switch (e.key.toLowerCase()) {
+          case 'b':
+            e.preventDefault()
+            result = formatBold(value, selectionStart, selectionEnd)
+            break
+          case 'i':
+            e.preventDefault()
+            result = formatItalic(value, selectionStart, selectionEnd)
+            break
+          case 'k':
+            e.preventDefault()
+            result = formatLink(value, selectionStart, selectionEnd)
+            break
+          case 's':
+            if (e.shiftKey) {
+              e.preventDefault()
+              result = formatStrikethrough(value, selectionStart, selectionEnd)
+            }
+            break
+        }
+        
+        if (result) {
+          setMarkdown(result.text)
+          setTimeout(() => {
+            textarea.setSelectionRange(result.newSelectionStart, result.newSelectionEnd)
+            textarea.focus()
+          }, 0)
+        }
       }
     }
+    
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
@@ -311,16 +406,25 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                 onDrop={handleFileDrop}
                 onDragOver={handleDragOver}
               >
-                <Textarea
-                  value={markdown}
-                  onChange={(e) => {
-                    setMarkdown(e.target.value)
-                    setLastAutoConverted(false)
-                  }}
-                  onPaste={handlePaste}
-                  placeholder={autoConvert ? "Paste anything here - text, formatted content from Word/Google Docs, or Markdown..." : "Paste your Markdown content here or drag & drop a .md file..."}
-                  className="min-h-[500px] font-mono text-sm resize-none"
-                />
+                <div className="border rounded-lg overflow-hidden">
+                  <FormattingToolbar
+                    textareaRef={textareaRef}
+                    value={markdown}
+                    onChange={setMarkdown}
+                    undoRedoManager={undoRedoManagerRef.current}
+                  />
+                  <Textarea
+                    ref={textareaRef}
+                    value={markdown}
+                    onChange={(e) => {
+                      setMarkdown(e.target.value)
+                      setLastAutoConverted(false)
+                    }}
+                    onPaste={handlePaste}
+                    placeholder={autoConvert ? "Paste anything here - text, formatted content from Word/Google Docs, or Markdown..." : "Paste your Markdown content here or drag & drop a .md file..."}
+                    className="min-h-[500px] font-mono text-sm resize-none border-0 rounded-t-none"
+                  />
+                </div>
                 <div className="absolute top-2 right-2 text-xs text-gray-500 bg-white px-2 py-1 rounded">
                   {markdown.length} characters
                 </div>

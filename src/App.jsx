@@ -8,6 +8,7 @@ import { Copy, Download, Mail, Settings, FileText, Smartphone, Monitor, CheckCir
 import { toast, Toaster } from 'sonner'
 import SideGuide from '@/components/SideGuide.jsx'
 import FormattingToolbar from '@/components/FormattingToolbar.jsx'
+import ContextMenu from '@/components/ContextMenu.jsx'
 import { logCopyToClipboard, logDownloadText, logEmailToSelf, logFileDropped, logShareClicked, logPageView } from '@/lib/firebase.js'
 import { htmlToMarkdown, isMarkdown } from '@/lib/htmlToMarkdown.js'
 import { UndoRedoManager } from '@/lib/undoRedoManager.js'
@@ -101,6 +102,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const [autoConvert, setAutoConvert] = useState(true)
   const [lastAutoConverted, setLastAutoConverted] = useState(false)
   const [, forceUpdate] = useState({})
+  const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0 })
   
   // Refs
   const textareaRef = useRef(null)
@@ -276,6 +278,68 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const handleDragOver = (e) => {
     e.preventDefault()
   }
+  
+  // Handle context menu
+  const handleContextMenu = (e) => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+    
+    // Only show context menu if there's selected text
+    const { selectionStart, selectionEnd } = textarea
+    if (selectionStart !== selectionEnd) {
+      e.preventDefault()
+      setContextMenu({
+        isOpen: true,
+        x: e.clientX,
+        y: e.clientY
+      })
+    }
+  }
+  
+  const handleContextMenuAction = (action) => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+    
+    const { selectionStart, selectionEnd, value } = textarea
+    let result = null
+    
+    switch (action) {
+      case 'bold':
+        result = formatBold(value, selectionStart, selectionEnd)
+        break
+      case 'italic':
+        result = formatItalic(value, selectionStart, selectionEnd)
+        break
+      case 'strikethrough':
+        result = formatStrikethrough(value, selectionStart, selectionEnd)
+        break
+      case 'link':
+        const url = prompt('Enter URL:', 'https://')
+        if (!url) return
+        result = formatLink(value, selectionStart, selectionEnd, url)
+        break
+      case 'bulletList':
+        result = formatBulletList(value, selectionStart, selectionEnd)
+        break
+      case 'numberedList':
+        result = formatNumberedList(value, selectionStart, selectionEnd)
+        break
+      case 'quote':
+        result = formatBlockquote(value, selectionStart, selectionEnd)
+        break
+      case 'code':
+        result = formatCode(value, selectionStart, selectionEnd)
+        break
+    }
+    
+    if (result) {
+      setMarkdown(result.text)
+      setTimeout(() => {
+        textarea.setSelectionRange(result.newSelectionStart, result.newSelectionEnd)
+        textarea.focus()
+      }, 0)
+    }
+  }
 
   // Handle paste event for auto-conversion
   const handlePaste = async (e) => {
@@ -421,6 +485,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                       setLastAutoConverted(false)
                     }}
                     onPaste={handlePaste}
+                    onContextMenu={handleContextMenu}
                     placeholder={autoConvert ? "Paste anything here - text, formatted content from Word/Google Docs, or Markdown..." : "Paste your Markdown content here or drag & drop a .md file..."}
                     className="min-h-[500px] font-mono text-sm resize-none border-0 rounded-t-none"
                   />
@@ -558,6 +623,12 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
       </div>
       <Toaster />
       <SideGuide isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
+      <ContextMenu
+        isOpen={contextMenu.isOpen}
+        position={{ x: contextMenu.x, y: contextMenu.y }}
+        onClose={() => setContextMenu({ isOpen: false, x: 0, y: 0 })}
+        onAction={handleContextMenuAction}
+      />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, BookOpen, Accessibility } from 'lucide-react'
+import { X, BookOpen, Accessibility, Keyboard } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
@@ -74,11 +74,18 @@ function SideGuide({ isOpen, onClose }) {
               <TabsList className="w-full rounded-none border-b">
                 <TabsTrigger value="markdown" className="flex-1 flex items-center gap-2">
                   <BookOpen className="w-4 h-4" />
-                  Markdown Syntax
+                  <span className="hidden sm:inline">Markdown</span>
+                  <span className="sm:hidden">MD</span>
+                </TabsTrigger>
+                <TabsTrigger value="shortcuts" className="flex-1 flex items-center gap-2">
+                  <Keyboard className="w-4 h-4" />
+                  <span className="hidden sm:inline">Shortcuts</span>
+                  <span className="sm:hidden">Keys</span>
                 </TabsTrigger>
                 <TabsTrigger value="accessibility" className="flex-1 flex items-center gap-2">
                   <Accessibility className="w-4 h-4" />
-                  Accessibility
+                  <span className="hidden sm:inline">Accessibility</span>
+                  <span className="sm:hidden">A11y</span>
                 </TabsTrigger>
               </TabsList>
 
@@ -173,6 +180,113 @@ function SideGuide({ isOpen, onClose }) {
                     <li>• Code blocks are great for sharing code snippets</li>
                     <li>• Lists help break up long content</li>
                     <li>• Always preview before posting to LinkedIn</li>
+                  </ul>
+                </section>
+              </TabsContent>
+
+              {/* Shortcuts Tab */}
+              <TabsContent value="shortcuts" className="p-4 space-y-6">
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-purple-900 mb-2">⌨️ Keyboard Shortcuts & Tools</h3>
+                  <p className="text-sm text-purple-800">
+                    Speed up your workflow with these handy shortcuts
+                  </p>
+                </div>
+
+                {/* Keyboard Shortcuts */}
+                <section>
+                  <h4 className="font-semibold mb-3">Keyboard Shortcuts</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Bold</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">{navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'}+B</kbd>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Italic</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">{navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'}+I</kbd>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Strikethrough</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">{navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'}+Shift+S</kbd>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Insert Link</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">{navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'}+K</kbd>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Undo</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">{navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘' : 'Ctrl'}+Z</kbd>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Redo</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">{navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘+Shift+Z' : 'Ctrl+Y'}</kbd>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                      <span>Open Guide</span>
+                      <kbd className="px-2 py-1 bg-gray-200 rounded text-xs">?</kbd>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Formatting Toolbar */}
+                <section>
+                  <h4 className="font-semibold mb-3">🎨 Formatting Toolbar</h4>
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600">
+                      The toolbar above the editor provides quick access to all formatting options:
+                    </p>
+                    <ul className="text-sm space-y-2">
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-400">•</span>
+                        <span><strong>Text Formatting:</strong> Bold, Italic, Strikethrough, Code</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-400">•</span>
+                        <span><strong>Lists:</strong> Bullet and Numbered lists</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-400">•</span>
+                        <span><strong>Other:</strong> Quotes, Links</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-400">•</span>
+                        <span><strong>History:</strong> Undo/Redo buttons with state indicators</span>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+
+                {/* Right-Click Menu */}
+                <section>
+                  <h4 className="font-semibold mb-3">🖱️ Right-Click Context Menu</h4>
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600">
+                      Select any text and right-click to access formatting options:
+                    </p>
+                    <ol className="text-sm space-y-2">
+                      <li>1. Select the text you want to format</li>
+                      <li>2. Right-click on the selection</li>
+                      <li>3. Choose your formatting option from the menu</li>
+                    </ol>
+                    <div className="bg-blue-50 p-3 rounded">
+                      <p className="text-xs text-blue-800">
+                        💡 Tip: The context menu stays within the viewport and can be dismissed with Escape
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Auto-Conversion */}
+                <section className="bg-green-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-green-900 mb-2">✨ Smart Auto-Conversion</h4>
+                  <p className="text-sm text-green-800 mb-2">
+                    When enabled, pasting content from Word, Google Docs, or websites automatically converts to Markdown!
+                  </p>
+                  <ul className="text-sm text-green-800 space-y-1">
+                    <li>• Preserves formatting (bold, italic, links)</li>
+                    <li>• Converts lists and headings</li>
+                    <li>• Maintains structure and hierarchy</li>
+                    <li>• Toggle with the "Auto" button</li>
                   </ul>
                 </section>
               </TabsContent>

@@ -4,6 +4,9 @@ export function htmlToMarkdown(html) {
   const temp = document.createElement('div')
   temp.innerHTML = html
   
+  // Track unsupported features
+  const unsupportedFeatures = new Set()
+  
   // Convert recursively
   function convertNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
@@ -89,27 +92,46 @@ export function htmlToMarkdown(html) {
       case 'article':
         return children
       
-      // Table - simple conversion
+      // Table - LinkedIn doesn't support tables
       case 'table': {
+        unsupportedFeatures.add('tables')
         const rows = Array.from(node.querySelectorAll('tr'))
         if (rows.length === 0) return ''
         
+        // Convert to simple text format
         const table = rows.map(row => {
           const cells = Array.from(row.querySelectorAll('td, th'))
-          return '| ' + cells.map(cell => convertNode(cell).trim()).join(' | ') + ' |'
+          return cells.map(cell => convertNode(cell).trim()).join(' | ')
         }).join('\n')
-        
-        // Add header separator if first row has th elements
-        if (rows[0] && rows[0].querySelector('th')) {
-          const headerCells = rows[0].querySelectorAll('th, td').length
-          const separator = '| ' + Array(headerCells).fill('---').join(' | ') + ' |'
-          const lines = table.split('\n')
-          lines.splice(1, 0, separator)
-          return lines.join('\n') + '\n\n'
-        }
         
         return table + '\n\n'
       }
+      
+      // Images - LinkedIn doesn't support inline images in text posts
+      case 'img': {
+        unsupportedFeatures.add('images')
+        const alt = node.getAttribute('alt') || 'image'
+        const src = node.getAttribute('src')
+        return `[${alt}](${src})`
+      }
+      
+      // Videos/iframes - not supported
+      case 'video':
+      case 'iframe':
+      case 'embed':
+        unsupportedFeatures.add('embedded media')
+        return '[Embedded media not supported]\n\n'
+        
+      // Underline - not supported in LinkedIn
+      case 'u':
+        unsupportedFeatures.add('underline')
+        return children
+        
+      // Subscript/Superscript - not supported
+      case 'sub':
+      case 'sup':
+        unsupportedFeatures.add('subscript/superscript')
+        return children
       
       default:
         return children
@@ -125,7 +147,10 @@ export function htmlToMarkdown(html) {
   // Trim whitespace
   markdown = markdown.trim()
   
-  return markdown
+  return {
+    markdown,
+    unsupportedFeatures: Array.from(unsupportedFeatures)
+  }
 }
 
 // Detect if text is already Markdown

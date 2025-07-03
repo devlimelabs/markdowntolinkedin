@@ -13,6 +13,7 @@ import { logCopyToClipboard, logDownloadText, logEmailToSelf, logFileDropped, lo
 import { htmlToMarkdown, isMarkdown } from '@/lib/htmlToMarkdown.js'
 import { UndoRedoManager } from '@/lib/undoRedoManager.js'
 import { formatBold, formatItalic, formatStrikethrough, formatLink, formatBulletList, formatNumberedList, formatCode, formatBlockquote } from '@/lib/textFormatting.js'
+import { checkUnsupportedFeatures, getFeatureWarning } from '@/lib/markdownChecker.js'
 import './App.css'
 
 // Unicode character mappings for LinkedIn formatting
@@ -103,6 +104,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const [lastAutoConverted, setLastAutoConverted] = useState(false)
   const [, forceUpdate] = useState({})
   const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0 })
+  const [unsupportedFeatures, setUnsupportedFeatures] = useState([])
   
   // Refs
   const textareaRef = useRef(null)
@@ -120,6 +122,10 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   useEffect(() => {
     const converted = convertMarkdownToLinkedIn(markdown)
     setLinkedInText(converted)
+    
+    // Check for unsupported features
+    const unsupported = checkUnsupportedFeatures(markdown)
+    setUnsupportedFeatures(unsupported)
     
     // Save state for undo/redo
     if (textareaRef.current && markdown !== lastValueRef.current) {
@@ -355,12 +361,27 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
     
     if (htmlData && !isMarkdown(textData)) {
       // Convert HTML to Markdown
-      const convertedMarkdown = htmlToMarkdown(htmlData)
-      setMarkdown(convertedMarkdown)
+      const result = htmlToMarkdown(htmlData)
+      setMarkdown(result.markdown)
       setLastAutoConverted(true)
-      toast.success('Auto-converted from rich text to Markdown!', {
-        icon: <Wand2 className="w-4 h-4" />
-      })
+      
+      // Show conversion success with warnings if any
+      if (result.unsupportedFeatures.length > 0) {
+        toast.warning(
+          <div>
+            <p className="font-semibold mb-1">Auto-converted with limitations:</p>
+            <p className="text-sm">LinkedIn doesn't support: {result.unsupportedFeatures.join(', ')}</p>
+          </div>,
+          {
+            icon: <AlertCircle className="w-4 h-4" />,
+            duration: 5000
+          }
+        )
+      } else {
+        toast.success('Auto-converted from rich text to Markdown!', {
+          icon: <Wand2 className="w-4 h-4" />
+        })
+      }
     } else {
       // Just paste as plain text
       setMarkdown(textData)
@@ -494,14 +515,35 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                   {markdown.length} characters
                 </div>
               </div>
-              <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h4>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• {autoConvert ? 'Paste from Word, Google Docs, or any website - auto-converts to Markdown!' : 'Use **bold** for emphasis and key points'}</li>
-                  <li>• Use *italics* for quotes and subtle emphasis</li>
-                  <li>• Headers become bold formatted text</li>
-                  <li>• Lists are converted to bullet points</li>
-                </ul>
+              <div className="mt-4 space-y-4">
+                {/* Unsupported Features Warning */}
+                {unsupportedFeatures.length > 0 && (
+                  <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                    <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      LinkedIn Compatibility Warning
+                    </h4>
+                    <p className="text-sm text-amber-800 mb-2">
+                      The following features are not supported by LinkedIn:
+                    </p>
+                    <ul className="text-sm text-amber-800 space-y-1">
+                      {unsupportedFeatures.map((feature, index) => (
+                        <li key={index}>• <strong>{feature}</strong>: {getFeatureWarning(feature)}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {/* Pro Tips */}
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h4 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h4>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li>• {autoConvert ? 'Paste from Word, Google Docs, or any website - auto-converts to Markdown!' : 'Use **bold** for emphasis and key points'}</li>
+                    <li>• Use *italics* for quotes and subtle emphasis</li>
+                    <li>• Headers become bold formatted text</li>
+                    <li>• Lists are converted to bullet points</li>
+                  </ul>
+                </div>
               </div>
             </CardContent>
           </Card>

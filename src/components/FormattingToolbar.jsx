@@ -117,10 +117,10 @@ export default function FormattingToolbar({ textareaRef, value, onChange, undoRe
   ]
   
   return (
-    <div className="flex items-center gap-1 p-2 bg-gray-50 border-b rounded-t-lg">
+    <div className="flex flex-wrap items-center gap-1 p-2 bg-gray-50 border-b rounded-t-lg">
       {buttons.map((button, index) => {
         if (button.divider) {
-          return <div key={index} className="w-px h-6 bg-gray-300 mx-1" />
+          return <div key={index} className="w-px h-6 bg-gray-300 mx-1 hidden sm:block" />
         }
         
         const Icon = button.icon
@@ -131,7 +131,7 @@ export default function FormattingToolbar({ textareaRef, value, onChange, undoRe
             size="sm"
             onClick={button.onClick}
             disabled={button.disabled}
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 flex-shrink-0"
             title={button.tooltip}
             aria-label={button.ariaLabel}
           >

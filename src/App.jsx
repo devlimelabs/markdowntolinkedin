@@ -450,7 +450,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
           {/* Input Section */}
           <Card className="h-full">
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="w-5 h-5" />
                   Markdown Input
@@ -461,7 +461,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     </Badge>
                   )}
                 </CardTitle>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Button
                     onClick={() => setAutoConvert(!autoConvert)}
                     variant={autoConvert ? "default" : "outline"}
@@ -470,7 +470,8 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     title="Toggle auto-conversion of pasted rich text"
                   >
                     <Wand2 className="w-4 h-4" />
-                    {autoConvert ? 'Auto' : 'Manual'}
+                    <span className="hidden xs:inline">{autoConvert ? 'Auto' : 'Manual'}</span>
+                    <span className="xs:hidden">{autoConvert ? 'A' : 'M'}</span>
                   </Button>
                   <Button
                     onClick={() => setIsGuideOpen(true)}
@@ -479,7 +480,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     className="flex items-center gap-2"
                   >
                     <HelpCircle className="w-4 h-4" />
-                    Guide
+                    <span className="hidden xs:inline">Guide</span>
                     <kbd className="ml-1 px-1 py-0.5 text-xs bg-gray-100 border rounded">?</kbd>
                   </Button>
                 </div>
@@ -551,7 +552,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
           {/* Preview Section */}
           <Card className="h-full">
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <CardTitle className="flex items-center gap-2">
                   LinkedIn Preview
                 </CardTitle>
@@ -559,11 +560,11 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                   <TabsList>
                     <TabsTrigger value="desktop" className="flex items-center gap-1">
                       <Monitor className="w-4 h-4" />
-                      Desktop
+                      <span className="hidden xs:inline">Desktop</span>
                     </TabsTrigger>
                     <TabsTrigger value="mobile" className="flex items-center gap-1">
                       <Smartphone className="w-4 h-4" />
-                      Mobile
+                      <span className="hidden xs:inline">Mobile</span>
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -613,41 +614,45 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
             <div className="flex flex-wrap gap-3 justify-center">
               <Button 
                 onClick={handleCopy} 
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 flex-1 sm:flex-none"
                 size="lg"
               >
                 {copySuccess ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copySuccess ? 'Copied!' : 'Copy to Clipboard'}
+                <span className="hidden xs:inline">{copySuccess ? 'Copied!' : 'Copy to Clipboard'}</span>
+                <span className="xs:hidden">{copySuccess ? 'Copied!' : 'Copy'}</span>
               </Button>
               
               <Button 
                 onClick={handleDownload} 
                 variant="outline"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 flex-1 sm:flex-none"
                 size="lg"
               >
                 <Download className="w-4 h-4" />
-                Download Text
+                <span className="hidden xs:inline">Download Text</span>
+                <span className="xs:hidden">Download</span>
               </Button>
               
               <Button 
                 onClick={handleEmail} 
                 variant="outline"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 flex-1 sm:flex-none"
                 size="lg"
               >
                 <Mail className="w-4 h-4" />
-                Email to Self
+                <span className="hidden xs:inline">Email to Self</span>
+                <span className="xs:hidden">Email</span>
               </Button>
               
               <Button 
                 onClick={() => navigator.share ? handleShare('native') : handleShare('linkedin')} 
                 variant="outline"
-                className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700"
+                className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700 flex-1 sm:flex-none"
                 size="lg"
               >
                 <Share2 className="w-4 h-4" />
-                Share This Tool
+                <span className="hidden xs:inline">Share This Tool</span>
+                <span className="xs:hidden">Share</span>
               </Button>
             </div>
           </CardContent>

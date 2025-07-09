@@ -37,7 +37,7 @@ A powerful React application that converts Markdown documents to LinkedIn-compat
 
 ## 📸 Demo
 
-![LinkedIn Markdown Formatter Demo](https://via.placeholder.com/800x500/4F46E5/FFFFFF?text=LinkedIn+Markdown+Formatter+Demo)
+![LinkedIn Markdown Formatter Demo](docs/images/app-screenshot.png)
 
 *Transform your Markdown content into LinkedIn-ready posts with real-time preview*
 

@@ -428,31 +428,53 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            LinkedIn Markdown Formatter
-          </h1>
-          <p className="text-lg text-gray-600 mb-4">
-            Convert your Markdown documents to LinkedIn-ready formatted text
-          </p>
-          <div className="flex justify-center gap-2">
-            <Badge variant="secondary">Full Markdown Support</Badge>
-            <Badge variant="secondary">Live Preview</Badge>
-            <Badge variant="secondary">One-Click Copy</Badge>
+    <div className="min-h-screen bg-gradient-mesh">
+      {/* Fixed Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="bg-gradient-primary p-2 rounded-lg">
+                <FileText className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  Markdown to LinkedIn
+                </h1>
+                <p className="text-sm text-gray-600">Transform your content into engaging social media posts</p>
+              </div>
+            </div>
+            
+            {/* Future Platform Selector Placeholder */}
+            <div className="flex items-center gap-4">
+              <Badge variant="outline" className="bg-gradient-primary text-white border-0">
+                LinkedIn Mode
+              </Badge>
+              <Button
+                onClick={() => handleShare('linkedin')}
+                variant="ghost"
+                size="sm"
+                className="text-gray-600 hover:text-primary-700"
+              >
+                <Share2 className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto p-4">
 
         {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-6" style={{ minHeight: '600px' }}>
+        <div className="grid lg:grid-cols-2 gap-6 mb-6 mt-6" style={{ minHeight: '600px' }}>
           {/* Input Section */}
-          <Card className="h-full">
-            <CardHeader>
+          <Card className="h-full shadow-card hover:shadow-card-hover transition-shadow duration-300">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
               <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-gray-800">
+                  <div className="p-1.5 bg-gradient-primary rounded">
+                    <FileText className="w-4 h-4 text-white" />
+                  </div>
                   Markdown Input
                   {lastAutoConverted && (
                     <Badge variant="secondary" className="text-xs">
@@ -466,7 +488,9 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     onClick={() => setAutoConvert(!autoConvert)}
                     variant={autoConvert ? "default" : "outline"}
                     size="sm"
-                    className="flex items-center gap-2"
+                    className={`flex items-center gap-2 transition-all duration-200 ${
+                      autoConvert ? 'bg-gradient-primary text-white hover:shadow-glow' : ''
+                    }`}
                     title="Toggle auto-conversion of pasted rich text"
                   >
                     <Wand2 className="w-4 h-4" />
@@ -476,11 +500,11 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     onClick={() => setIsGuideOpen(true)}
                     variant="outline"
                     size="sm"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
                   >
                     <HelpCircle className="w-4 h-4" />
                     Guide
-                    <kbd className="ml-1 px-1 py-0.5 text-xs bg-gray-100 border rounded">?</kbd>
+                    <kbd className="ml-1 px-1.5 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded shadow-sm">?</kbd>
                   </Button>
                 </div>
               </div>
@@ -491,7 +515,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                 onDrop={handleFileDrop}
                 onDragOver={handleDragOver}
               >
-                <div className="border rounded-lg overflow-hidden">
+                <div className="border-2 border-gray-200 rounded-lg overflow-hidden shadow-inner-glow">
                   <FormattingToolbar
                     textareaRef={textareaRef}
                     value={markdown}
@@ -508,11 +532,11 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     onPaste={handlePaste}
                     onContextMenu={handleContextMenu}
                     placeholder={autoConvert ? "Paste anything here - text, formatted content from Word/Google Docs, or Markdown..." : "Paste your Markdown content here or drag & drop a .md file..."}
-                    className="min-h-[500px] font-mono text-sm resize-none border-0 rounded-t-none"
+                    className="min-h-[500px] font-mono text-sm resize-none border-0 rounded-t-none bg-editor-bg text-editor-text placeholder:text-editor-comment focus:ring-0 focus:outline-none custom-scrollbar"
                   />
                 </div>
-                <div className="absolute top-2 right-2 text-xs text-gray-500 bg-white px-2 py-1 rounded">
-                  {markdown.length} characters
+                <div className="absolute top-2 right-2 text-xs text-gray-500 bg-white/90 backdrop-blur px-2.5 py-1.5 rounded-lg shadow-sm border border-gray-200">
+                  <span className="font-medium">{markdown.length}</span> characters
                 </div>
               </div>
               <div className="mt-4 space-y-4">
@@ -535,13 +559,27 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                 )}
                 
                 {/* Pro Tips */}
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h4 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h4>
-                  <ul className="text-sm text-blue-800 space-y-1">
-                    <li>• {autoConvert ? 'Paste from Word, Google Docs, or any website - auto-converts to Markdown!' : 'Use **bold** for emphasis and key points'}</li>
-                    <li>• Use *italics* for quotes and subtle emphasis</li>
-                    <li>• Headers become bold formatted text</li>
-                    <li>• Lists are converted to bullet points</li>
+                <div className="p-4 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-lg border border-primary-200 shadow-sm">
+                  <h4 className="font-semibold text-primary-900 mb-2 flex items-center gap-2">
+                    <span className="text-xl">💡</span> Pro Tips:
+                  </h4>
+                  <ul className="text-sm text-primary-800 space-y-1">
+                    <li className="flex items-start">
+                      <span className="text-primary-500 mr-2">•</span>
+                      {autoConvert ? 'Paste from Word, Google Docs, or any website - auto-converts to Markdown!' : 'Use **bold** for emphasis and key points'}
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-primary-500 mr-2">•</span>
+                      Use *italics* for quotes and subtle emphasis
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-primary-500 mr-2">•</span>
+                      Headers become bold formatted text
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-primary-500 mr-2">•</span>
+                      Lists are converted to bullet points
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -549,19 +587,22 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
           </Card>
 
           {/* Preview Section */}
-          <Card className="h-full">
-            <CardHeader>
+          <Card className="h-full shadow-card hover:shadow-card-hover transition-shadow duration-300">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
               <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-gray-800">
+                  <div className="p-1.5 bg-gradient-secondary rounded">
+                    <Monitor className="w-4 h-4 text-white" />
+                  </div>
                   LinkedIn Preview
                 </CardTitle>
                 <Tabs value={viewMode} onValueChange={setViewMode}>
-                  <TabsList>
-                    <TabsTrigger value="desktop" className="flex items-center gap-1">
+                  <TabsList className="bg-gray-100">
+                    <TabsTrigger value="desktop" className="flex items-center gap-1 data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       <Monitor className="w-4 h-4" />
                       Desktop
                     </TabsTrigger>
-                    <TabsTrigger value="mobile" className="flex items-center gap-1">
+                    <TabsTrigger value="mobile" className="flex items-center gap-1 data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       <Smartphone className="w-4 h-4" />
                       Mobile
                     </TabsTrigger>
@@ -570,9 +611,9 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
               </div>
             </CardHeader>
             <CardContent>
-              <div className={`bg-white border rounded-lg p-4 ${viewMode === 'mobile' ? 'max-w-sm mx-auto' : ''}`}>
-                <div className="flex items-center gap-3 mb-4 pb-3 border-b">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div className={`bg-white border-2 border-gray-200 rounded-lg p-4 shadow-inner ${viewMode === 'mobile' ? 'max-w-sm mx-auto' : ''}`}>
+                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
+                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold shadow-glow">
                     You
                   </div>
                   <div>
@@ -608,45 +649,49 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         </div>
 
         {/* Action Buttons */}
-        <Card>
+        <Card className="shadow-card-hover bg-gradient-to-r from-white to-gray-50">
           <CardContent className="pt-6">
             <div className="flex flex-wrap gap-3 justify-center">
               <Button 
                 onClick={handleCopy} 
-                className="flex items-center gap-2"
+                className={`flex items-center gap-2 transition-all duration-300 ${
+                  copySuccess 
+                    ? 'bg-success text-white hover:bg-success/90' 
+                    : 'bg-gradient-primary text-white hover:shadow-glow'
+                }`}
                 size="lg"
               >
-                {copySuccess ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                {copySuccess ? <CheckCircle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                 {copySuccess ? 'Copied!' : 'Copy to Clipboard'}
               </Button>
               
               <Button 
                 onClick={handleDownload} 
                 variant="outline"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
                 size="lg"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-5 h-5" />
                 Download Text
               </Button>
               
               <Button 
                 onClick={handleEmail} 
                 variant="outline"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
                 size="lg"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-5 h-5" />
                 Email to Self
               </Button>
               
               <Button 
                 onClick={() => navigator.share ? handleShare('native') : handleShare('linkedin')} 
                 variant="outline"
-                className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700"
+                className="flex items-center gap-2 bg-gradient-secondary text-white hover:shadow-glow border-0 transition-all duration-200"
                 size="lg"
               >
-                <Share2 className="w-4 h-4" />
+                <Share2 className="w-5 h-5" />
                 Share This Tool
               </Button>
             </div>
@@ -655,9 +700,12 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
 
         {/* Footer */}
         <div className="text-center mt-8 text-gray-600">
-          <p className="text-sm">
-            Made with ❤️ for LinkedIn content creators • 
-            <a href="https://www.linkedin.com/in/john-pribesh-61892027/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-1">
+          <p className="text-sm flex items-center justify-center gap-2">
+            <span>Made with</span>
+            <span className="text-secondary-500 animate-pulse">❤️</span>
+            <span>for LinkedIn content creators</span>
+            <span className="text-gray-400">•</span>
+            <a href="https://www.linkedin.com/in/john-pribesh-61892027/" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:text-primary-700 hover:underline transition-colors duration-200">
               Report Issues
             </a>
           </p>

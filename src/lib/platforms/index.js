@@ -6,6 +6,11 @@ import { facebookPlatform } from './facebook.js'
 import { instagramPlatform } from './instagram.js'
 import { mastodonPlatform } from './mastodon.js'
 import { blueskyPlatform } from './bluesky.js'
+import { youtubePlatform } from './youtube.js'
+import { tiktokPlatform } from './tiktok.js'
+import { pinterestPlatform } from './pinterest.js'
+import { redditPlatform } from './reddit.js'
+import { discordPlatform } from './discord.js'
 
 // Platform registry
 export const platforms = {
@@ -14,7 +19,12 @@ export const platforms = {
   [facebookPlatform.id]: facebookPlatform,
   [instagramPlatform.id]: instagramPlatform,
   [mastodonPlatform.id]: mastodonPlatform,
-  [blueskyPlatform.id]: blueskyPlatform
+  [blueskyPlatform.id]: blueskyPlatform,
+  [youtubePlatform.id]: youtubePlatform,
+  [tiktokPlatform.id]: tiktokPlatform,
+  [pinterestPlatform.id]: pinterestPlatform,
+  [redditPlatform.id]: redditPlatform,
+  [discordPlatform.id]: discordPlatform
 }
 
 // Get platform by ID
@@ -131,4 +141,16 @@ export function convertForAllPlatforms(markdown, options = {}) {
 }
 
 // Export individual platforms for direct access
-export { linkedinPlatform, twitterPlatform, facebookPlatform, instagramPlatform, mastodonPlatform, blueskyPlatform }
+export { 
+  linkedinPlatform, 
+  twitterPlatform, 
+  facebookPlatform, 
+  instagramPlatform, 
+  mastodonPlatform, 
+  blueskyPlatform,
+  youtubePlatform,
+  tiktokPlatform,
+  pinterestPlatform,
+  redditPlatform,
+  discordPlatform
+}

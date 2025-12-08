@@ -469,7 +469,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         <div className="grid lg:grid-cols-2 gap-6 mb-6 mt-6" style={{ minHeight: '600px' }}>
           {/* Input Section */}
           <Card className="h-full shadow-card hover:shadow-card-hover transition-shadow duration-300">
-            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
+            <CardHeader className="bg-white border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-gray-800">
                   <div className="p-1.5 bg-gradient-primary rounded">
@@ -588,7 +588,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
 
           {/* Preview Section */}
           <Card className="h-full shadow-card hover:shadow-card-hover transition-shadow duration-300">
-            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
+            <CardHeader className="bg-white border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-gray-800">
                   <div className="p-1.5 bg-gradient-secondary rounded">

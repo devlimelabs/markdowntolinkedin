@@ -470,7 +470,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
           {/* Input Section */}
           <Card className="h-full shadow-card hover:shadow-card-hover transition-shadow duration-300">
             <CardHeader className="bg-white border-b border-gray-100">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <CardTitle className="flex items-center gap-2 text-gray-800">
                   <div className="p-1.5 bg-gradient-primary rounded">
                     <FileText className="w-4 h-4 text-white" />
@@ -483,7 +483,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     </Badge>
                   )}
                 </CardTitle>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Button
                     onClick={() => setAutoConvert(!autoConvert)}
                     variant={autoConvert ? "default" : "outline"}
@@ -494,7 +494,8 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     title="Toggle auto-conversion of pasted rich text"
                   >
                     <Wand2 className="w-4 h-4" />
-                    {autoConvert ? 'Auto' : 'Manual'}
+                    <span className="hidden xs:inline">{autoConvert ? 'Auto' : 'Manual'}</span>
+                    <span className="xs:hidden">{autoConvert ? 'A' : 'M'}</span>
                   </Button>
                   <Button
                     onClick={() => setIsGuideOpen(true)}
@@ -503,7 +504,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                     className="flex items-center gap-2 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
                   >
                     <HelpCircle className="w-4 h-4" />
-                    Guide
+                    <span className="hidden sm:inline">Guide</span>
                     <kbd className="ml-1 px-1.5 py-0.5 text-xs bg-gray-100 border border-gray-300 rounded shadow-sm">?</kbd>
                   </Button>
                 </div>
@@ -589,9 +590,9 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
           {/* Preview Section */}
           <Card className="h-full shadow-card hover:shadow-card-hover transition-shadow duration-300">
             <CardHeader className="bg-white border-b border-gray-100">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <CardTitle className="flex items-center gap-2 text-gray-800">
-                  <div className="p-1.5 bg-gradient-secondary rounded">
+                  <div className="p-1.5 bg-gradient-primary rounded">
                     <Monitor className="w-4 h-4 text-white" />
                   </div>
                   LinkedIn Preview
@@ -600,11 +601,11 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
                   <TabsList className="bg-gray-100">
                     <TabsTrigger value="desktop" className="flex items-center gap-1 data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       <Monitor className="w-4 h-4" />
-                      Desktop
+                      <span className="hidden xs:inline">Desktop</span>
                     </TabsTrigger>
                     <TabsTrigger value="mobile" className="flex items-center gap-1 data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       <Smartphone className="w-4 h-4" />
-                      Mobile
+                      <span className="hidden xs:inline">Mobile</span>
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -652,47 +653,50 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         <Card className="shadow-card-hover bg-gradient-to-r from-white to-gray-50">
           <CardContent className="pt-6">
             <div className="flex flex-wrap gap-3 justify-center">
-              <Button 
-                onClick={handleCopy} 
-                className={`flex items-center gap-2 transition-all duration-300 ${
-                  copySuccess 
-                    ? 'bg-success text-white hover:bg-success/90' 
+              <Button
+                onClick={handleCopy}
+                className={`flex items-center gap-2 flex-1 sm:flex-none transition-all duration-300 ${
+                  copySuccess
+                    ? 'bg-success text-white hover:bg-success/90'
                     : 'bg-gradient-primary text-white hover:shadow-glow'
                 }`}
                 size="lg"
               >
                 {copySuccess ? <CheckCircle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                {copySuccess ? 'Copied!' : 'Copy to Clipboard'}
+                <span className="hidden sm:inline">{copySuccess ? 'Copied!' : 'Copy to Clipboard'}</span>
+                <span className="sm:hidden">{copySuccess ? 'Copied!' : 'Copy'}</span>
               </Button>
               
-              <Button 
-                onClick={handleDownload} 
+              <Button
+                onClick={handleDownload}
                 variant="outline"
-                className="flex items-center gap-2 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
+                className="flex items-center gap-2 flex-1 sm:flex-none hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
                 size="lg"
               >
                 <Download className="w-5 h-5" />
-                Download Text
+                <span className="hidden sm:inline">Download Text</span>
+                <span className="sm:hidden">Download</span>
               </Button>
               
-              <Button 
-                onClick={handleEmail} 
+              <Button
+                onClick={handleEmail}
                 variant="outline"
-                className="flex items-center gap-2 hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
+                className="flex items-center gap-2 flex-1 sm:flex-none hover:bg-primary-50 hover:text-primary-700 hover:border-primary-300 transition-all duration-200"
                 size="lg"
               >
                 <Mail className="w-5 h-5" />
-                Email to Self
+                <span className="hidden sm:inline">Email to Self</span>
+                <span className="sm:hidden">Email</span>
               </Button>
               
-              <Button 
-                onClick={() => navigator.share ? handleShare('native') : handleShare('linkedin')} 
-                variant="outline"
-                className="flex items-center gap-2 bg-gradient-secondary text-white hover:shadow-glow border-0 transition-all duration-200"
+              <Button
+                onClick={() => navigator.share ? handleShare('native') : handleShare('linkedin')}
+                className="flex items-center gap-2 flex-1 sm:flex-none bg-primary-600 text-white hover:bg-primary-700 transition-all duration-200"
                 size="lg"
               >
                 <Share2 className="w-5 h-5" />
-                Share This Tool
+                <span className="hidden sm:inline">Share This Tool</span>
+                <span className="sm:hidden">Share</span>
               </Button>
             </div>
           </CardContent>

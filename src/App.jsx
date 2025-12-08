@@ -428,7 +428,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   }
 
   return (
-    <div className="min-h-screen bg-gradient-mesh">
+    <div className="min-h-screen bg-slate-50">
       {/* Fixed Header */}
       <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -702,7 +702,7 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         <div className="text-center mt-8 text-gray-600">
           <p className="text-sm flex items-center justify-center gap-2">
             <span>Made with</span>
-            <span className="text-secondary-500 animate-pulse">❤️</span>
+            <span className="text-primary-500">❤️</span>
             <span>for LinkedIn content creators</span>
             <span className="text-gray-400">•</span>
             <a href="https://www.linkedin.com/in/john-pribesh-61892027/" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:text-primary-700 hover:underline transition-colors duration-200">

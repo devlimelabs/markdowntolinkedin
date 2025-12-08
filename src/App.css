@@ -22,20 +22,9 @@
   background: theme('colors.editor.comment');
 }
 
-/* Gradient animations */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.bg-gradient-mesh {
-  background-image: linear-gradient(45deg, #7c3aed 0%, #a855f7 25%, #ec4899 50%, #f472b6 75%, #e9d5ff 100%);
-  background-size: 400% 400%;
-  animation: gradient-shift 15s ease infinite;
+/* Clean background */
+.bg-clean {
+  background-color: #f8fafc;
 }
 
 /* Focus styles for editor */

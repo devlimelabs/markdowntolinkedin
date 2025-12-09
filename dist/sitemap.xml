@@ -1,9 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://markdowntolinkedin.com/</loc>
-    <lastmod>2024-01-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://markdowntolinkedin.com</loc>
+    <lastmod>2025-12-09</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/boost-linkedin-engagement</loc>
+    <lastmod>2025-01-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/linkedin-character-limit-guide</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/linkedin-formatting-guide</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/markdown-basics-for-content-creators</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/category/strategy</loc>
+    <lastmod>2025-01-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/category/reference</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://markdowntolinkedin.com/blog/category/tutorials</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

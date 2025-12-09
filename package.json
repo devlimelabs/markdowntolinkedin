@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:ssg": "vite build && node scripts/prerender.js",
     "preview": "vite preview",
-    "deploy": "npm run build && firebase deploy"
+    "deploy": "npm run build:ssg && firebase deploy"
   },
   "dependencies": {
     "clsx": "^2.1.0",
@@ -15,16 +16,25 @@
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.10.1",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
+    "@prerenderer/rollup-plugin": "^0.3.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
+    "puppeteer": "^24.32.1",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "vite-plugin-pages": "^0.33.2"
   }
 }

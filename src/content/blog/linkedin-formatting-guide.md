@@ -1,6 +1,7 @@
 ---
 title: "The Complete Guide to LinkedIn Text Formatting"
 date: "2025-01-15"
+lastUpdated: "2025-12-08"
 category: "Tutorials"
 tags: ["linkedin", "formatting", "beginner"]
 excerpt: "Master LinkedIn text formatting with bold, italic, lists, and special characters. Learn the techniques that top creators use to make their posts stand out."

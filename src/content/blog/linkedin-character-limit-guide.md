@@ -1,6 +1,7 @@
 ---
 title: "LinkedIn Character Limits: Everything You Need to Know in 2025"
 date: "2025-01-01"
+lastUpdated: "2025-06-15"
 category: "Reference"
 tags: ["linkedin", "character-limit", "tips"]
 excerpt: "A comprehensive guide to all LinkedIn character limits for posts, comments, headlines, and more. Stay within limits and maximize your impact."

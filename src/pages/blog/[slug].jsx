@@ -10,7 +10,8 @@ import {
   ArrowLeft,
   Tag,
   User,
-  ChevronRight
+  ChevronRight,
+  RefreshCw
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -178,7 +179,8 @@ export default function BlogPost() {
   const meta = getPostMeta(post)
   const relatedPosts = getRelatedPosts(slug, 3)
   const { frontmatter, content, readingTime } = post
-  const { title, date, category, tags, coverImage, author } = frontmatter
+  const { title, date, lastUpdated, category, tags, coverImage, author } = frontmatter
+  const wasUpdated = lastUpdated && lastUpdated !== date
 
   return (
     <>
@@ -191,6 +193,9 @@ export default function BlogPost() {
         <meta property="og:url" content={meta.url} />
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={meta.publishedTime} />
+        {meta.modifiedTime && meta.modifiedTime !== meta.publishedTime && (
+          <meta property="article:modified_time" content={meta.modifiedTime} />
+        )}
         <meta property="article:author" content={meta.author} />
         <meta property="article:section" content={meta.category} />
         {meta.tags.map(tag => (
@@ -237,6 +242,12 @@ export default function BlogPost() {
               <Calendar className="w-4 h-4" />
               {formatDate(date)}
             </span>
+            {wasUpdated && (
+              <span className="flex items-center gap-1.5 text-primary-600">
+                <RefreshCw className="w-4 h-4" />
+                Updated {formatDate(lastUpdated)}
+              </span>
+            )}
             <span className="flex items-center gap-1.5">
               <Clock className="w-4 h-4" />
               {readingTime}

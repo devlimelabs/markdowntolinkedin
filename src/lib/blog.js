@@ -105,11 +105,16 @@ function parseMarkdownFile(filePath, rawContent) {
   // Calculate reading time
   const stats = calculateReadingTime(content)
 
+  // lastUpdated defaults to date if not specified
+  const publishDate = frontmatter.date || new Date().toISOString().split('T')[0]
+  const lastUpdated = frontmatter.lastUpdated || publishDate
+
   return {
     slug,
     frontmatter: {
       title: frontmatter.title || 'Untitled',
-      date: frontmatter.date || new Date().toISOString().split('T')[0],
+      date: publishDate,
+      lastUpdated: lastUpdated,
       category: frontmatter.category || 'general',
       tags: frontmatter.tags || [],
       excerpt: frontmatter.excerpt || content.slice(0, 160).replace(/[#*`]/g, '').trim() + '...',
@@ -285,6 +290,7 @@ export function getPostMeta(post) {
     image,
     type: 'article',
     publishedTime: post.frontmatter.date,
+    modifiedTime: post.frontmatter.lastUpdated,
     author: post.frontmatter.author,
     category: post.frontmatter.category,
     tags: post.frontmatter.tags

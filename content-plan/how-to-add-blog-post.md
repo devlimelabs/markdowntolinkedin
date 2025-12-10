@@ -12,12 +12,23 @@ This document outlines the process for creating, enhancing, and publishing a new
 
 - **Create a New Markdown File:** In the `src/content/blog/` directory, create a new markdown file. The filename should be the slug defined in the content plan (e.g., `new-blog-post-title.md`).
 - **Write the Article:** Write the blog post in Markdown, following these best practices:
-  - **Structure:** Use clear headings and subheadings to structure the article.
-  - **Introduction:** Start with a compelling introduction that hooks the reader.
-  - **TL;DR Section:** Include a "Too Long; Didn't Read" (TL;DR) section at the top with a table summarizing the key takeaways. This provides immediate value to the reader.
-  - **Body:** Expand on the key points with detailed explanations, examples, and data. Use short paragraphs and clear language.
-  - **Conclusion:** End with a strong conclusion that summarizes the main points and includes a call-to-action.
-  - **References:** If you cite any external sources, include a "References" section at the end with numbered links.
+    - **Structure:** Use clear headings and subheadings to structure the article.
+    - **Introduction:** Start with a compelling introduction that hooks the reader.
+    - **TL;DR Section:** Include a "Too Long; Didn't Read" (TL;DR) section at the top with a table summarizing the key takeaways. This provides immediate value to the reader.
+    - **Body:** Expand on the key points with detailed explanations, examples, and data. Use short paragraphs and clear language.
+    - **Conclusion:** End with a strong conclusion that summarizes the main points and includes a call-to-action.
+    - **References:** If you cite any external sources, include a "References" section at the end with numbered links.
+    
+    **CRITICAL WRITING GUIDELINES (to avoid AI-generated content flags):**
+    - **NEVER use em-dashes (—) anywhere in the content.** Use semicolons, periods, commas, or simple sentence breaks instead.
+    - **Avoid overly formal or academic language.** Write conversationally, like you're explaining something to a colleague.
+    - **Don't overuse corporate buzzwords** like "landscape," "leverage," "strategic," "comprehensive," etc.
+    - **Keep sentences simple and direct.** Avoid unnecessarily complex sentence structures.
+    - **Write in active voice** whenever possible. Instead of "it is recommended that," write "you should."
+    - **Use contractions** like "don't," "won't," "it's" to sound more human.
+    - **Ask direct questions** instead of rhetorical ones that sound robotic.
+    - **Use specific examples** rather than generic statements.
+    - **Avoid starting with phrases** like "In today's landscape," "In a world where," or "In the fast-paced world of."
 - **Frontmatter:** Add the necessary frontmatter to the top of the markdown file. This includes:
   - `title`: The title of the blog post.
   - `date`: The publication date (YYYY-MM-DD).

@@ -5,7 +5,7 @@ lastUpdated: "2025-12-09"
 category: "Reference"
 tags: ["linkedin", "character-limit", "strategy", "guide"]
 excerpt: "Our comprehensive guide to all LinkedIn character limits for 2025. Maximize the impact of your posts, profile, and messages by understanding the exact limits."
-coverImage: "/blog/images/character-limits-2025.jpg"
+coverImage: "/blog/images/formatting-guide-cover.png"
 author: "John Pribesh"
 ---
 

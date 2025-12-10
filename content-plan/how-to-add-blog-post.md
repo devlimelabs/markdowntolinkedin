@@ -31,15 +31,26 @@ This document outlines the process for creating, enhancing, and publishing a new
 ## 3. Adding Visuals
 
 - **Create or Source Images:**
-    - **Infographics/Diagrams:** If the content can be enhanced with a diagram or infographic, create one using a tool like Mermaid.js. Save the diagram code in a `.mmd` file and render it to a PNG image using the `manus-render-diagram` command.
-    - **Cover Images:** Find a high-quality, royalty-free image from a source like Unsplash or Pexels. The image should be relevant to the blog post's topic.
+    - **Infographics/Diagrams:** 
+      - **For Manus Agent users:** Create diagrams using Mermaid.js. Save the diagram code in a `.mmd` file and render it to a PNG image using the `manus-render-diagram` command.
+      - **For all other users:** Use online tools like Canva, Figma, or draw.io to create diagrams and infographics. Alternatively, use AI image generation tools like Replicate MCP, DALL-E, or Midjourney if available.
+    - **Cover Images:** Find a high-quality, royalty-free image from sources like Unsplash, Pexels, or Pixabay. The image should be relevant to the blog post's topic.
 - **Image Placement:**
-    - Place all images in the `src/assets/images/` directory.
+    - Place all images in the `public/blog/images/` directory.
     - Use descriptive filenames for your images (e.g., `linkedin-engagement-infographic.png`).
-    - Reference the images in your markdown file using the correct path (e.g., `![Alt text for the image](/assets/images/your-image.png)`).
+    - Reference the images in your markdown file using the correct path (e.g., `![Alt text for the image](/blog/images/your-image.png)`).
 
 ## 4. Final Review and Pull Request
 
 - **Proofread:** Carefully proofread the entire article for any spelling or grammar errors.
 - **Check Links:** Ensure all internal and external links are working correctly.
+- **Verify Images:** Ensure all referenced images exist in the `public/blog/images/` directory and are properly formatted.
 - **Create a Pull Request:** Once the article is complete and all assets are in place, commit your changes and create a pull request to the `main` branch of the `devlimelabs/markdowntolinkedin` repository.
+
+## Notes
+
+**Missing Images:** The following placeholder images need to be created:
+- `character-limits-2025.jpg` - A visual guide to LinkedIn character limits
+- `engagement-tips.jpg` - Generic engagement tips image (this was replaced with the engagement infographic)
+
+These can be created using the tools mentioned in section 3 above.

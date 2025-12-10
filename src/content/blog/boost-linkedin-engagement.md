@@ -5,7 +5,7 @@ date: "2025-01-10"
 excerpt: "Discover the data-backed strategies that top LinkedIn creators use to consistently get high engagement on their posts."
 tags: ["engagement", "linkedin", "growth", "tips"]
 title: "5 Proven Strategies to Boost Your LinkedIn Post Engagement"
-coverImage: "/blog/images/engagement-tips.jpg"
+coverImage: "/blog/images/engagement-infographic.png"
 ---
 
 ## TL;DR: Key LinkedIn Engagement Strategies
@@ -24,7 +24,7 @@ It feels like a mystery, doesn't it? You spend hours crafting the perfect Linked
 
 The truth is, it's not about luck; it's about understanding the system. The LinkedIn algorithm has evolved significantly, and as of 2025, it's a sophisticated system designed to reward genuine connection and value. Generic, faceless content is no longer effective. This guide will walk you through the proven strategies that align with the latest algorithm changes to help you create posts that don't just get seen, but get results.
 
-![LinkedIn Engagement Infographic](/assets/images/engagement-infographic.png)
+![LinkedIn Engagement Infographic](/blog/images/engagement-infographic.png)
 
 ## Why Engagement is Your Most Important Metric
 

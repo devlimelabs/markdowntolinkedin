@@ -5,7 +5,7 @@ lastUpdated: "2025-12-09"
 category: "Tutorials"
 tags: ["markdown", "writing", "beginner", "productivity"]
 excerpt: "Learn the essential Markdown syntax that will speed up your content creation workflow across all platforms, from your blog to your LinkedIn posts."
-coverImage: "/assets/images/markdown-basics-cover.jpg"
+coverImage: "/blog/images/markdown-basics-cover.jpg"
 author: "John Pribesh"
 ---
 

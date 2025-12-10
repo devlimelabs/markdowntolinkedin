@@ -5,7 +5,7 @@ lastUpdated: "2025-12-09"
 category: "Tutorials"
 tags: ["linkedin", "formatting", "guide", "unicode"]
 excerpt: "Master LinkedIn text formatting with bold, italic, lists, and special characters. Learn the Unicode techniques that top creators use to make their posts stand out."
-coverImage: "/assets/images/formatting-guide-cover.png"
+coverImage: "/blog/images/formatting-guide-cover.png"
 author: "John Pribesh"
 featured: true
 ---

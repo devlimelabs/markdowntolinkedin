@@ -21,7 +21,7 @@ These posts target the highest-volume search terms directly.
 | # | Status | Title | Slug | Target Keyword | Description |
 |---|--------|-------|------|----------------|-------------|
 | 1 | ✅ | LinkedIn Text Formatter: The Complete Guide to Formatting Your Posts | `/linkedin-text-formatter` | linkedin text formatter (4,600) | Comprehensive guide covering all formatting options available on LinkedIn, including bold, italic, lists, and how our tool simplifies the process |
-| 2 | ⬜ | How to Bold Text in LinkedIn Posts (3 Methods) | `/bold-text-linkedin-posts` | linkedin bold text (1,000) | Step-by-step tutorial showing Unicode method, markdown conversion, and copy-paste techniques for bold LinkedIn text |
+| 2 | ✅ | How to Bold Text in LinkedIn Posts (3 Methods) | `/bold-text-linkedin-posts` | linkedin bold text (1,000) | Step-by-step tutorial showing Unicode method, markdown conversion, and copy-paste techniques for bold LinkedIn text |
 | 3 | ⬜ | LinkedIn Formatting Guide: Everything You Need to Know in 2025 | `/linkedin-formatting-guide` | linkedin formatting (800) | Complete reference covering character limits, supported formatting, what works and what doesn't on LinkedIn |
 | 4 | ⬜ | How to Bold Text in a LinkedIn Post: Step-by-Step Tutorial | `/how-to-bold-text-linkedin-post` | how to bold text in linkedin post (450) | Focused tutorial with screenshots showing exactly how to add bold text to LinkedIn posts |
 | 5 | ⬜ | LinkedIn Post Formatting: Best Practices for 2025 | `/linkedin-post-formatting-best-practices` | linkedin post formatting (300) | Best practices guide covering optimal post structure, formatting dos and don'ts, and engagement tips |

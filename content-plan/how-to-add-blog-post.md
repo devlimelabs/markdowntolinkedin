@@ -30,26 +30,27 @@ This document outlines the process for creating, enhancing, and publishing a new
     - **Use specific examples** rather than generic statements.
     - **Avoid starting with phrases** like "In today's landscape," "In a world where," or "In the fast-paced world of."
 - **Frontmatter:** Add the necessary frontmatter to the top of the markdown file. This includes:
-    - `title`: The title of the blog post.
-    - `date`: The publication date (YYYY-MM-DD).
-    - `lastUpdated`: The date the post was last updated (YYYY-MM-DD).
-    - `category`: The relevant category for the post.
-    - `tags`: A list of relevant tags.
-    - `excerpt`: A short summary of the post for social media and search engines.
-    - `coverImage`: The path to the cover image.
-    - `author`: The author's name.
+  - `title`: The title of the blog post.
+  - `date`: The publication date (YYYY-MM-DD).
+  - `lastUpdated`: The date the post was last updated (YYYY-MM-DD).
+  - `category`: The relevant category for the post.
+  - `tags`: A list of relevant tags.
+  - `excerpt`: A short summary of the post for social media and search engines.
+  - `coverImage`: The path to the cover image.
+  - `author`: The author's name.
 
 ## 3. Adding Visuals
 
 - **Create or Source Images:**
-    - **Infographics/Diagrams:** 
-      - **For Manus Agent users:** Create diagrams using Mermaid.js. Save the diagram code in a `.mmd` file and render it to a PNG image using the `manus-render-diagram` command.
-      - **For all other users:** Use online tools like Canva, Figma, or draw.io to create diagrams and infographics. Alternatively, use AI image generation tools like Replicate MCP, DALL-E, or Midjourney if available.
-    - **Cover Images:** Find a high-quality, royalty-free image from sources like Unsplash, Pexels, or Pixabay. The image should be relevant to the blog post's topic.
+
+  - **For Manus Agent users:** Create cover images,  diagrams, inline images, infographics, & other image media with Nano Banana Pro via Gemini API connector (model `gemini-3-pro-image-preview`)
+  - **For all other users:**  AI image generation tools like Replicate MCP to generate images using Google/Nano Banana Pro Image generation model
+  - **Fallback Option:** Find a high-quality, royalty-free image from sources like Unsplash, Pexels, or Pixabay. The image should be relevant to the blog post's topic. only do this if Unable to generate unique relevant images with Nano Banana Pro
 - **Image Placement:**
-    - Place all images in the `public/blog/images/` directory.
-    - Use descriptive filenames for your images (e.g., `linkedin-engagement-infographic.png`).
-    - Reference the images in your markdown file using the correct path (e.g., `![Alt text for the image](/blog/images/your-image.png)`).
+
+  - Place all images in the `public/blog/images/` directory.
+  - Use descriptive filenames for your images (e.g., `linkedin-engagement-infographic.png`).
+  - Reference the images in your markdown file using the correct path (e.g., `![Alt text for the image](/blog/images/your-image.png)`).
 
 ## 4. Final Review and Pull Request
 
@@ -61,6 +62,7 @@ This document outlines the process for creating, enhancing, and publishing a new
 ## Notes
 
 **Missing Images:** The following placeholder images need to be created:
+
 - `character-limits-2025.jpg` - A visual guide to LinkedIn character limits
 - `engagement-tips.jpg` - Generic engagement tips image (this was replaced with the engagement infographic)
 

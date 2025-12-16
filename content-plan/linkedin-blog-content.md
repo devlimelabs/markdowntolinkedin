@@ -26,7 +26,7 @@ These posts target the highest-volume search terms directly.
 | 3.1 | ✅ | LinkedIn Formatting Guide: Everything You Need to Know in 2025 | `/linkedin-formatting-guide-2025` | linkedin formatting (800) | Complete reference covering character limits, supported formatting, what works and what doesn't on LinkedIn |
 | 4 | ✅ | How to Bold Text in a LinkedIn Post: Step-by-Step Tutorial | `/how-to-bold-text-linkedin-post` | how to bold text in linkedin post (450) | Focused tutorial with screenshots showing exactly how to add bold text to LinkedIn posts |
 | 5 | ⬜ | LinkedIn Post Formatting: Best Practices for 2025 | `/linkedin-post-formatting-best-practices` | linkedin post formatting (300) | Best practices guide covering optimal post structure, formatting dos and don'ts, and engagement tips |
-| 6 | ⬜ | Bold LinkedIn Text Generator: Free Online Tool | `/bold-linkedin-text-generator` | bold linkedin text (250) | Landing page style post introducing our tool and explaining how it works |
+| 6 | ✅ | Bold LinkedIn Text Generator: Free Online Tool | `/bold-linkedin-text-generator` | bold linkedin text (250) | Landing page style post introducing our tool and explaining how it works |
 | 7 | ⬜ | How to Make Text Bold in LinkedIn Posts Without Special Tools | `/make-text-bold-linkedin` | how to make text bold in linkedin post (150) | DIY guide for manual Unicode bold text, plus introduction to easier markdown method |
 | 8 | ⬜ | How to Bold Text on LinkedIn (Desktop & Mobile) | `/bold-text-linkedin-desktop-mobile` | how to bold text on linkedin (150) | Platform-specific guide covering both desktop and mobile LinkedIn apps |
 

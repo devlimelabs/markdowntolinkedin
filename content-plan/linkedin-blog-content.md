@@ -38,7 +38,7 @@ Detailed tutorials for specific formatting needs.
 
 | # | Status | Title | Slug | Target Keyword | Description |
 |---|--------|-------|------|----------------|-------------|
-| 9 | ⬜ | How to Add Italic Text to LinkedIn Posts | `/italic-text-linkedin` | linkedin italic text | Guide to adding italic formatting using Unicode characters and markdown conversion |
+| 9 | [x] | How to Add Italic Text to LinkedIn Posts | `/italic-text-linkedin` | linkedin italic text | Guide to adding italic formatting using Unicode characters and markdown conversion |
 | 10 | ⬜ | LinkedIn Bullet Points: How to Format Lists That Stand Out | `/linkedin-bullet-points` | linkedin bullet points | Tutorial on creating clean, readable bullet point lists in LinkedIn posts |
 | 11 | ⬜ | How to Add Line Breaks in LinkedIn Posts | `/linkedin-line-breaks` | linkedin line breaks | Solving the common frustration of LinkedIn removing line breaks and how to preserve formatting |
 | 12 | ⬜ | LinkedIn Strikethrough Text: Is It Possible? | `/linkedin-strikethrough-text` | linkedin strikethrough | Exploring strikethrough options on LinkedIn and Unicode workarounds |

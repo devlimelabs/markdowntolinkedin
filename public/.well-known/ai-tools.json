@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "name": "LinkedIn Markdown Formatter",
+  "description": "Convert Markdown text to LinkedIn-compatible Unicode formatting",
+  "url": "https://markdowntolinkedin.com",
+  "tools": [
+    {
+      "name": "convert_markdown_to_linkedin",
+      "description": "Convert Markdown text to LinkedIn-compatible Unicode formatting. Supports bold (**text**), italic (*text*), strikethrough (~~text~~), headers (# ## ###), bullet lists (- or *), numbered lists (1. 2. 3.), links ([text](url)), and blockquotes (> text). Returns formatted text ready to paste into LinkedIn.",
+      "url": "https://markdowntolinkedin.com",
+      "input": {
+        "type": "object",
+        "properties": {
+          "markdown": {
+            "type": "string",
+            "description": "Markdown-formatted text to convert for LinkedIn"
+          }
+        },
+        "required": ["markdown"]
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "linkedinText": {
+            "type": "string",
+            "description": "Unicode-formatted text ready to paste into LinkedIn"
+          },
+          "characterCount": {
+            "type": "number",
+            "description": "Character count of the output"
+          },
+          "isOverLimit": {
+            "type": "boolean",
+            "description": "Whether the text exceeds LinkedIn's 3000 character limit"
+          }
+        }
+      },
+      "interaction": "browser",
+      "features": ["bold", "italic", "strikethrough", "headers", "bullet_lists", "numbered_lists", "links", "blockquotes"]
+    }
+  ]
+}

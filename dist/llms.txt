@@ -1,0 +1,40 @@
+# LinkedIn Markdown Formatter
+
+> Convert Markdown text to LinkedIn-compatible Unicode formatting
+
+## What This Tool Does
+
+This web application converts standard Markdown syntax into Unicode-formatted text that displays correctly on LinkedIn. LinkedIn does not support Markdown natively, so this tool uses special Unicode characters (Mathematical Alphanumeric Symbols) to produce bold, italic, and other formatted text.
+
+## Supported Conversions
+
+- **Bold**: `**text**` → Mathematical Bold Unicode
+- **Italic**: `*text*` → Mathematical Italic Unicode
+- **Strikethrough**: `~~text~~` → Combining Strikethrough
+- **Headers**: `# Header` → Bold Unicode text
+- **Bullet Lists**: `- item` → ● item
+- **Numbered Lists**: `1. item` → 1. item (preserved)
+- **Links**: `[text](url)` → text (url)
+- **Blockquotes**: `> text` → Italic text
+
+## How to Use
+
+1. Navigate to https://markdowntolinkedin.com
+2. Enter or paste Markdown text in the input field
+3. The converted LinkedIn-ready text appears in real-time in the preview
+4. Copy the output and paste into LinkedIn
+
+## For AI Agents
+
+This site supports WebMCP (navigator.modelContext) for structured tool access.
+Tool name: convert_markdown_to_linkedin
+Input: { "markdown": "your markdown text here" }
+Output: LinkedIn-formatted Unicode text with character count and limit warnings.
+
+## Character Limits
+
+LinkedIn post limit: 3000 characters. The tool shows a real-time character count and warns when the limit is exceeded.
+
+## URL
+
+https://markdowntolinkedin.com

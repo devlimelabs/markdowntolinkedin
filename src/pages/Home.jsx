@@ -14,6 +14,7 @@ import { htmlToMarkdown, isMarkdown } from '@/lib/htmlToMarkdown.js'
 import { UndoRedoManager } from '@/lib/undoRedoManager.js'
 import { formatBold, formatItalic, formatStrikethrough, formatLink, formatBulletList, formatNumberedList, formatCode, formatBlockquote } from '@/lib/textFormatting.js'
 import { checkUnsupportedFeatures, getFeatureWarning } from '@/lib/markdownChecker.js'
+import { registerWebMCPTools } from '@/lib/webmcp.js'
 
 // Unicode character mappings for LinkedIn formatting
 const unicodeMap = {
@@ -110,9 +111,10 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   const undoRedoManagerRef = useRef(new UndoRedoManager())
   const lastValueRef = useRef(markdown)
 
-  // Log page view on mount
+  // Log page view on mount and register WebMCP tools
   useEffect(() => {
     logPageView()
+    registerWebMCPTools(convertMarkdownToLinkedIn)
     // Save initial state
     undoRedoManagerRef.current.saveState(markdown, 0, 0)
   }, [])
@@ -358,11 +360,14 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
     const htmlData = clipboardData.getData('text/html')
     const textData = clipboardData.getData('text/plain')
 
+    let pasteContent
+    let wasAutoConverted = false
+
     if (htmlData && !isMarkdown(textData)) {
       // Convert HTML to Markdown
       const result = htmlToMarkdown(htmlData)
-      setMarkdown(result.markdown)
-      setLastAutoConverted(true)
+      pasteContent = result.markdown
+      wasAutoConverted = true
 
       // Show conversion success with warnings if any
       if (result.unsupportedFeatures.length > 0) {
@@ -382,10 +387,26 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
         })
       }
     } else {
-      // Just paste as plain text
-      setMarkdown(textData)
-      setLastAutoConverted(false)
+      pasteContent = textData
     }
+
+    // Insert at cursor position instead of replacing all content
+    const textarea = textareaRef.current
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const before = markdown.substring(0, start)
+    const after = markdown.substring(end)
+    const newContent = before + pasteContent + after
+
+    setMarkdown(newContent)
+    setLastAutoConverted(wasAutoConverted)
+
+    // Restore cursor position after React re-render
+    const newCursorPos = start + pasteContent.length
+    requestAnimationFrame(() => {
+      textarea.selectionStart = newCursorPos
+      textarea.selectionEnd = newCursorPos
+    })
   }
 
   const characterCount = linkedInText.length
@@ -429,6 +450,26 @@ Transform your **Markdown** content into *LinkedIn-ready* formatted text!
   return (
     <>
       <div className="max-w-7xl mx-auto p-4">
+
+        {/* WebMCP Declarative Form - hidden but discoverable by AI agents */}
+        <form
+          toolname="convert_markdown_to_linkedin"
+          tooldescription="Convert Markdown text to LinkedIn-compatible Unicode formatting. Supports bold, italic, strikethrough, headers, lists, links, and blockquotes. Returns text ready to paste into LinkedIn."
+          className="sr-only"
+          onSubmit={(e) => {
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const md = formData.get('markdown')
+            if (md) {
+              const result = convertMarkdownToLinkedIn(md)
+              e.target.querySelector('[name="output"]').value = result
+            }
+          }}
+        >
+          <textarea name="markdown" toolparamdescription="Markdown-formatted text to convert for LinkedIn" />
+          <output name="output" />
+          <button type="submit">Convert</button>
+        </form>
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-6 mb-6 mt-6" style={{ minHeight: '600px' }}>
